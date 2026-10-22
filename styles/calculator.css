@@ -1,4 +1,15 @@
 
+:root {
+    --primary-color: hsl(0, 0%, 15%);
+    --secondary-color: hsl(0, 0%, 30%);
+    --hover-color: hsl(0, 0%, 40%);
+    --active-color: hsl(0, 0%, 50%);
+    --accent-color: hsl(35, 100%, 55%);
+    --accent-hover: hsl(35, 100%, 65%);
+    --accent-active: hsl(35, 100%, 75%);
+    --text-color: hsl(0, 0%, 100%);
+}
+
 body {
     margin: 0 auto;
     display: flex;
@@ -10,22 +21,31 @@ body {
 
 #container {
     font-family: 'Arial', sans-serif;
-    max-width: 500px;
+    max-width: 90%;
     margin: 50px auto;
-    background-color: hsl(0, 0%, 15%);
+    background-color: var(--primary-color);
     border-radius: 15px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
     overflow: hidden;
 }
 
 #display {
-    background-color: hsl(0, 0%, 20%);
-    color: hsl(0, 0%, 100%);
+    background-color: var(--secondary-color);
+    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.5);
+    color: var(--text-color);
+    font-family:  "Press Start 2P", system-ui;
+    font-weight: 400;
+    font-style: normal;
+    text-wrap: wrap;
     width: 100%;
-    font-size: 5rem;
+    font-size: 2rem;
     text-align: left;
     padding: 20px;
     border: none;
+}
+
+#display:focus {
+    outline: none;
 }
 
 #keys {
@@ -35,30 +55,43 @@ body {
     padding: 25px;
 }
 
-button {
-    width: 100px;
-    height: 100px;
+button, div[class="number-button"], div[class="operator-button"] {
+    width: 5rem;
+    height: 5rem;
     border-radius: 50px;
     border: none;
-    background-color: hsl(0, 0%, 30%);
-    color: hsl(0, 0%, 100%);
+    display: flex;
+    color: var(--text-color);
     font-size: 3rem;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
     font-weight: bold;
     cursor: pointer;
 }
-button:hover {
-    background-color: hsl(0, 0%, 40%);
+
+.number-button {
+    background-color: var(--secondary-color);
 }
-button:active {
-    background-color: hsl(0, 0%, 50%);
+
+.number-button:hover {
+    background-color: var(--hover-color);
+}
+
+.number-button:active {
+    background-color: var(--active-color);
+}
+
+.operator-button:active {
+    background-color: var(--active-color);
 }
 
 .operator-button {
-    background-color: hsl(35, 100%, 55%);
+    background-color: var(--accent-color);
 }
 .operator-button:hover {
-    background-color: hsl(35, 100%, 65%);
+    background-color: var(--accent-hover);
 }
 .operator-button:active {
-    background-color: hsl(35, 100%, 75%);
+    background-color: var(--accent-active);
 }

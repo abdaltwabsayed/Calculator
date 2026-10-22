@@ -9,30 +9,31 @@
     <meta property="og:image" content="https://cdn.pixabay.com/photo/2023/03/06/04/26/calculator-7832583_1280.png" />
     <meta property="og:url" content="https://www.freecodecamp.org" />
     <link href="./styles/calculator.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playwrite+BR+Guides&family=Press+Start+2P&family=Rakkas&display=swap" rel="stylesheet">
     <title>Calculator</title>
 </head>
 <body>
     <div id="container">
-        <input id="display" readonly>
-        <div id="keys">
-            <button onclick="appendToDisplay('+')" class="operator-button">+</button>
-            <button onclick="appendToDisplay('7')">7</button>
-            <button onclick="appendToDisplay('8')">8</button>
-            <button onclick="appendToDisplay('9')">9</button>
-            <button onclick="appendToDisplay('-')" class="operator-button">-</button>
-            <button onclick="appendToDisplay('4')">4</button>
-            <button onclick="appendToDisplay('5')">5</button>
-            <button onclick="appendToDisplay('6')">6</button>
-            <button onclick="appendToDisplay('*')" class="operator-button">*</button>
-            <button onclick="appendToDisplay('1')">1</button>
-            <button onclick="appendToDisplay('2')">2</button>
-            <button onclick="appendToDisplay('3')">3</button>
-            <button onclick="appendToDisplay('/')" class="operator-button">/</button>
-            <button onclick="appendToDisplay('0')">0</button>
-            <button onclick="appendToDisplay('.')">.</button>
-            <button onclick="calculate()">=</button>
+        <input id="display" readonly autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false" autoFocus>
+        <form id="keys" onsubmit="calculate()">
+            <div id="add" class="operator-button">+</div>
+            <div id="seven" class="number-button">7</div>
+            <div id="eight" class="number-button">8</div>
+            <div id="nine" class="number-button">9</div>
+            <div id="subtract" class="operator-button">-</div>
+            <div id="four" class="number-button">4</div>
+            <div id="five" class="number-button">5</div>
+            <div id="six" class="number-button">6</div>
+            <div id="multiply" class="operator-button">*</div>
+            <div id="one" class="number-button">1</div>
+            <div id="two" class="number-button">2</div>
+            <div id="three" class="number-button">3</div>
+            <div id="divide" class="operator-button">/</div>
+            <div id="zero" class="number-button">0</div>
+            <div id="decimal" class="number-button">.</div>
+            <button type="submit" class="operator-button">=</button>
             <button onclick="clearDisplay()" class="operator-button">C</button>
-        </div>
+        </form>
     </div>
     
     <script src="./scripts/calculator.js"></script>

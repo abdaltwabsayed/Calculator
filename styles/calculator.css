@@ -32,6 +32,10 @@ body {
 #display {
     background-color: var(--secondary-color);
     box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+    resize: none;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
     color: var(--text-color);
     font-family:  "Press Start 2P", system-ui;
     font-weight: 400;

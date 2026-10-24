@@ -50,19 +50,19 @@ body {
 
 #keys {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 10px;
     padding: 25px;
 }
 
-button, div[class="number-button"], div[class="operator-button"] {
+div[class="number-button"], div[class="operator-button"] {
     width: 5rem;
     height: 5rem;
-    border-radius: 50px;
+    border-radius: 50%;
     border: none;
     display: flex;
     color: var(--text-color);
-    font-size: 3rem;
+    font-size: 2rem;
     text-align: center;
     align-items: center;
     justify-content: center;
@@ -89,9 +89,15 @@ button, div[class="number-button"], div[class="operator-button"] {
 .operator-button {
     background-color: var(--accent-color);
 }
+
 .operator-button:hover {
     background-color: var(--accent-hover);
 }
+
 .operator-button:active {
     background-color: var(--accent-active);
+}
+
+#multiply, #divide, #add, #subtract, #calc {
+    font-size: 3rem;
 }

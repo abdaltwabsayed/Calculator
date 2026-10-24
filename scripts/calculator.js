@@ -5,9 +5,17 @@ const display = document.getElementById("display");
 document.addEventListener("click", function (event) {
     const button = event.target.closest(".number-button, .operator-button");
 
-    if (button && button.textContent !== "=" && button.textContent !== "C") {
-        if (display.value === "Error") clearDisplay();
+    if (button && button.textContent !== "=" &&
+        button.textContent !== "AC" &&
+        button.textContent !== "DEL"
+    ) {
         appendToDisplay(button.textContent);
+    } else if (button.textContent === "=") {
+        calculate(display.value);
+    } else if (button.textContent === "AC") {
+        clearDisplay();
+    } else if (button.textContent === "DEL") {
+        display.value = display.value.slice(0, -1);
     }
 });
 
@@ -23,7 +31,7 @@ document.addEventListener("keydown", function (event) {
         clearDisplay();
     } else if (event.key >= "0" && event.key <= "9") {
         appendToDisplay(event.key);
-    } else if (event.key === "+" || event.key === "-" || event.key === "*" || event.key === "/" || event.key === ".") {
+    } else if (event.key === "+" || event.key === "-" || event.key === "×" || event.key === "/" || event.key === ".") {
         appendToDisplay(event.key);
     }
 });
@@ -36,45 +44,60 @@ function clearDisplay() {
     display.value = "";
 }
 
+function postMessage(message) {
+    display.value = message;
+}
+
 function calculate() {
     try {
-        const inputArray = display.value.split(/[\+\-\*\/]/)[0];
-        const orderOperations = [];
-        for (let i = 0; i < inputArray.length; i++) {
-            let firstNumber = inputArray[i];
-            let operator = display.value.match(/[\+\-\*\/]/)?.[i] || "";
-            let secondNumber = inputArray[i + 1] || "";
-            // We need to handle the arithmetic operations order and ensure that we are not trying to perform operations on empty strings or invalid numbers.
-            if (firstNumber === "" || secondNumber === "" || isNaN(firstNumber) || isNaN(secondNumber)) {
-                display.value = "Error";
-                return;
-            }
-            switch (operator) {
-                case "+":
-                    orderOperations.push({firstNumber: parseFloat(firstNumber), operator: "+", secondNumber: parseFloat(secondNumber), index: i});
-                    break;
-                case "-":
-                    orderOperations.push({firstNumber: parseFloat(firstNumber), operator: "-", secondNumber: parseFloat(secondNumber), index: i});
-                    break;
-                case "*":
-                    orderOperations.push({firstNumber: parseFloat(firstNumber), operator: "*", secondNumber: parseFloat(secondNumber), index: i});
-                    break;
-                case "/":
-                    orderOperations.push({firstNumber: parseFloat(firstNumber), operator: "/", secondNumber: parseFloat(secondNumber), index: i});
-                    break;
-                default:
-                    display.value = "Error";
+        // Handling the arithmetic operations order
+        const numbersArray = display.value.split(/[\+\-\×\÷]/);
+        const operatorsArray = display.value.match(/[\+\-\×\÷]/g);
+        if (numbersArray.length !== operatorsArray - 1) postMessage("Invalid Input");
+        while (numbersArray.length > 1 && operatorsArray != null) {
+            let firstNumber;
+            let secondNumber;
+            let index;
+            if (operatorsArray.includes("×")) {
+                index = operatorsArray.indexOf("×");
+                firstNumber = getOperandValue(numbersArray[index]);
+                secondNumber = getOperandValue(numbersArray[index + 1]);
+                operatorsArray.splice(index, 1);
+                numbersArray.splice(index, 2, (firstNumber * secondNumber));
+            } else if (operatorsArray.includes("÷")) {
+                index = operatorsArray.indexOf("÷");
+                firstNumber = getOperandValue(numbersArray[index]);
+                secondNumber = getOperandValue(numbersArray[index + 1]);
+                operatorsArray.splice(index, 1);
+                numbersArray.splice(index, 2, (firstNumber / secondNumber));
+            } else if (operatorsArray.includes("+")) {
+                index = operatorsArray.indexOf("+");
+                firstNumber = getOperandValue(numbersArray[index]);
+                secondNumber = getOperandValue(numbersArray[index + 1]);
+                operatorsArray.splice(index, 1);
+                numbersArray.splice(index, 2, (firstNumber + secondNumber));
+            } else if (operatorsArray.includes("-")) {
+                index = operatorsArray.indexOf("-");
+                firstNumber = getOperandValue(numbersArray[index]);
+                secondNumber = getOperandValue(numbersArray[index + 1]);
+                operatorsArray.splice(index, 1);
+                numbersArray.splice(index, 2, (firstNumber - secondNumber));
             }
         }
-        // Now we can perform the operations in the correct order.
-        const result = 0;
-        for (let i = 0; i < orderOperations.length; i++) {
-           if (orderOperations[i]) //die;
-           {}
-        }
-        display.value = result;
+        if (numbersArray[0] == "π") postMessage(Math.PI);
+        else if (numbersArray[0] == "Ans") postMessage(parseFloat(localStorage.getItem("Previous")));
+        else postMessage(numbersArray[0]);
+        if (!Number.isNaN(parseFloat(display.value))) localStorage.setItem("Previous", display.value);
     }
     catch (error) {
-        display.value = "Error"
+        postMessage(error);
     }
+}
+
+function getOperandValue(operand) {
+    if (operand === "π"){
+        return Math.PI;
+    } else if (operand === "Ans") {
+        return parseFloat(localStorage.getItem("Previous"));
+    } else return parseFloat(operand);
 }

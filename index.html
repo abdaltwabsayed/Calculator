@@ -15,25 +15,32 @@
 <body>
     <div id="container">
         <input id="display" readonly autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false" autoFocus>
-        <form id="keys" onsubmit="calculate()">
-            <div id="add" class="operator-button">+</div>
+        <div id="keys" onsubmit="calculate()">
+            <!-- First row -->
             <div id="seven" class="number-button">7</div>
             <div id="eight" class="number-button">8</div>
             <div id="nine" class="number-button">9</div>
-            <div id="subtract" class="operator-button">-</div>
+            <div id="delete" class="operator-button">DEL</div>
+            <div class="operator-button">AC</div>
+            <!-- Second row -->
             <div id="four" class="number-button">4</div>
             <div id="five" class="number-button">5</div>
             <div id="six" class="number-button">6</div>
-            <div id="multiply" class="operator-button">*</div>
+            <div id="multiply" class="operator-button">×</div>
+            <div id="divide" class="operator-button">÷</div>
+            <!-- Third row -->
             <div id="one" class="number-button">1</div>
             <div id="two" class="number-button">2</div>
             <div id="three" class="number-button">3</div>
-            <div id="divide" class="operator-button">/</div>
+            <div id="add" class="operator-button">+</div>
+            <div id="subtract" class="operator-button">-</div>
+            <!-- Fourth row -->
             <div id="zero" class="number-button">0</div>
             <div id="decimal" class="number-button">.</div>
-            <button type="submit" class="operator-button">=</button>
-            <button onclick="clearDisplay()" class="operator-button">C</button>
-        </form>
+            <div id="PI" class="number-button">π</div>
+            <div id="previous" class="number-button">Ans</div>
+            <div id="calc" class="operator-button">=</div>
+        </div>
     </div>
     
     <script src="./scripts/calculator.js"></script>

@@ -10,37 +10,37 @@
     <meta property="og:url" content="https://www.freecodecamp.org" />
     <link rel="icon" type="image/png" href="assets/icon.png">
     <link href="./styles/calculator.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playwrite+BR+Guides&family=Press+Start+2P&family=Rakkas&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <title>Calculator</title>
 </head>
 <body>
     <div id="container">
-        <textarea id="display" readonly autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false" autoFocus ></textarea>
-        <div id="keys" onsubmit="calculate()">
+        <textarea id="display" aria-label="Calculator display" aria-live="polite" readonly autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false" autoFocus></textarea>
+        <div id="keys" role="group" aria-label="Calculator keys">
             <!-- First row -->
-            <div id="seven" class="number-button">7</div>
-            <div id="eight" class="number-button">8</div>
-            <div id="nine" class="number-button">9</div>
-            <div id="delete" class="operator-button">DEL</div>
-            <div class="operator-button">AC</div>
+            <button id="seven" type="button" class="number-button" data-value="7">7</button>
+            <button id="eight" type="button" class="number-button" data-value="8">8</button>
+            <button id="nine" type="button" class="number-button" data-value="9">9</button>
+            <button id="delete" type="button" class="operator-button" data-action="delete" aria-label="Delete">DEL</button>
+            <button type="button" class="operator-button" data-action="clear" aria-label="All clear">AC</button>
             <!-- Second row -->
-            <div id="four" class="number-button">4</div>
-            <div id="five" class="number-button">5</div>
-            <div id="six" class="number-button">6</div>
-            <div id="multiply" class="operator-button">×</div>
-            <div id="divide" class="operator-button">÷</div>
+            <button id="four" type="button" class="number-button" data-value="4">4</button>
+            <button id="five" type="button" class="number-button" data-value="5">5</button>
+            <button id="six" type="button" class="number-button" data-value="6">6</button>
+            <button id="multiply" type="button" class="operator-button" data-value="×" aria-label="Multiply">×</button>
+            <button id="divide" type="button" class="operator-button" data-value="÷" aria-label="Divide">÷</button>
             <!-- Third row -->
-            <div id="one" class="number-button">1</div>
-            <div id="two" class="number-button">2</div>
-            <div id="three" class="number-button">3</div>
-            <div id="add" class="operator-button">+</div>
-            <div id="subtract" class="operator-button">-</div>
+            <button id="one" type="button" class="number-button" data-value="1">1</button>
+            <button id="two" type="button" class="number-button" data-value="2">2</button>
+            <button id="three" type="button" class="number-button" data-value="3">3</button>
+            <button id="add" type="button" class="operator-button" data-value="+">+</button>
+            <button id="subtract" type="button" class="operator-button" data-value="-">-</button>
             <!-- Fourth row -->
-            <div id="zero" class="number-button">0</div>
-            <div id="decimal" class="number-button">.</div>
-            <div id="PI" class="number-button">π</div>
-            <div id="previous" class="number-button">Ans</div>
-            <div id="calc" class="operator-button">=</div>
+            <button id="zero" type="button" class="number-button" data-value="0">0</button>
+            <button id="decimal" type="button" class="number-button" data-value=".">.</button>
+            <button id="PI" type="button" class="number-button" data-value="π" aria-label="Pi">π</button>
+            <button id="previous" type="button" class="number-button" data-value="Ans" aria-label="Previous answer">Ans</button>
+            <button id="calc" type="button" class="operator-button" data-action="calculate" aria-label="Equals">=</button>
         </div>
     </div>
     

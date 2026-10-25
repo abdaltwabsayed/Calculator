@@ -39,8 +39,10 @@ body {
     height: 5rem;
     padding: 1rem;
     overflow-x: auto;
-    overflow-y: scroll;
+    overflow-y: hidden;
     resize: none;
+    white-space: pre;
+    overflow-wrap: normal;
     background-color: var(--secondary-color);
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
     color: var(--text-color);

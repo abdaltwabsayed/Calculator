@@ -7,42 +7,68 @@ document.addEventListener("click", function (event) {
     const button = event.target.closest("button[data-value], button[data-action]");
     if (!button) return;
 
-    if (display.value === "Invalid Input" || display.value === "Infinity" || justCalculated) clearDisplay();
-    justCalculated = false;
     if (button.dataset.value !== undefined) {
-        appendToDisplay(button.dataset.value);
+        const value = button.dataset.value;
+        if (isErrorMessage(display.value) || (justCalculated && !isOperator(value))) clearDisplay();
+        justCalculated = false;
+        appendToDisplay(value);
     } else if (button.dataset.action === "calculate") {
-        calculate(display.value);
+        if (!isErrorMessage(display.value)) calculate(display.value);
     } else if (button.dataset.action === "clear") {
         clearDisplay();
+        justCalculated = false;
     } else if (button.dataset.action === "delete") {
-        deleteFromDisplay();
+        if (justCalculated || isErrorMessage(display.value)) clearDisplay();
+        else deleteFromDisplay();
+        justCalculated = false;
     }
 });
 
 document.addEventListener("keydown", function (event) {
     if (event.target.closest("button") && (event.key === "Enter" || event.key === " ")) return;
 
-    if (display.value === "Invalid Input" || display.value === "Infinity" || justCalculated) clearDisplay();
-    justCalculated = false;
+    if (event.ctrlKey || event.metaKey || event.altKey) return;
+
     if (event.key === "Enter") {
-        calculate(display.value);
+        event.preventDefault();
+        if (!isErrorMessage(display.value)) calculate(display.value);
     } else if (event.key === "Escape") {
         clearDisplay();
+        justCalculated = false;
     } else if (event.key === "Backspace") {
-        deleteFromDisplay();
+        event.preventDefault();
+        if (justCalculated || isErrorMessage(display.value)) clearDisplay();
+        else deleteFromDisplay();
+        justCalculated = false;
     } else if (event.key === "Delete") {
         clearDisplay();
+        justCalculated = false;
     } else if (event.key >= "0" && event.key <= "9") {
+        if (isErrorMessage(display.value) || justCalculated) clearDisplay();
+        justCalculated = false;
         appendToDisplay(event.key);
     } else if (event.key === "+" || event.key === "-" || event.key === ".") {
+        if (isErrorMessage(display.value) || (justCalculated && event.key === ".")) clearDisplay();
+        justCalculated = false;
         appendToDisplay(event.key);
     } else if (event.key === "*") {
+        if (isErrorMessage(display.value)) clearDisplay();
+        justCalculated = false;
         appendToDisplay("×");
     } else if (event.key === "/") {
+        if (isErrorMessage(display.value)) clearDisplay();
+        justCalculated = false;
         appendToDisplay("÷");
     }
 });
+
+function isOperator(value) {
+    return "+-×÷".includes(value);
+}
+
+function isErrorMessage(value) {
+    return value === "Invalid Input" || value === "Math Error";
+}
 
 function appendToDisplay(input) {
     display.value += input;
@@ -124,10 +150,35 @@ function calculate() {
         numbersArray.splice(operatorIndex, 2, result);
     }
 
-    showMessage(getOperandValue(numbersArray[0]));
-    justCalculated = true;
-    if (!Number.isNaN(parseFloat(display.value))) localStorage.setItem("Previous", display.value);
+    const result = getOperandValue(numbersArray[0]);
+    if (!Number.isFinite(result)) {
+        showMessage("Math Error");
+        justCalculated = true;
+        return;
+    }
 
+    const roundedResult = Number(result.toPrecision(12));
+    showMessage(Object.is(roundedResult, -0) ? 0 : roundedResult);
+    justCalculated = true;
+    savePreviousAnswer(display.value);
+}
+
+function savePreviousAnswer(answer) {
+    try {
+        localStorage.setItem("Previous", answer);
+    } catch (error) {
+        console.error("Could not save the previous answer.", error);
+    }
+}
+
+function getPreviousAnswer() {
+    try {
+        const previousAnswer = localStorage.getItem("Previous");
+        return previousAnswer === null ? Number.NaN : parseFloat(previousAnswer);
+    } catch (error) {
+        console.error("Could not read the previous answer.", error);
+        return Number.NaN;
+    }
 }
 
 function getOperandValue(operand) {
@@ -144,6 +195,6 @@ function getOperandValue(operand) {
     } else if (operand === "π") {
         return Math.PI;
     }  else if (operand === "Ans") {
-        return parseFloat(localStorage.getItem("Previous"));
+        return getPreviousAnswer();
     }  else return parseFloat(operand);
 }
